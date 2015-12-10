@@ -7,43 +7,70 @@ namespace Stress
 {
     public class Program
     {
-        public static bool Run = true;
+        private static bool _run = true;
 
-        public static IEnumerable<Task> SpinUp()
+        public static void Main(string[] args)
+        {
+            object invokedVerbInstance;
+
+            var options = new StressOptions();
+            if (!CommandLine.Parser.Default.ParseArguments(args, options,
+              (verb, subOptions) =>
+              {
+                  invokedVerbInstance = subOptions;
+
+                  switch (verb.ToLower())
+                  {
+                      case "cpu":
+
+                          StressCpu(options.Cpu.DryRun);
+                          break;
+
+                      case "ram":
+                          StressMem(options.Ram.DryRun);
+                          break;
+                  }
+              }))
+            {
+                
+            }
+        }
+
+        private static IEnumerable<Task> SpinUp()
         {
             for (int i = 0; i < System.Environment.ProcessorCount; i++)
             {
                 yield return Task.Factory.StartNew(() =>
                 {
-                    while (Run) { };
+                    while (_run) { };
                 });
             }
         }
 
-        public static void StressCpu()
+        private static void StressCpu(bool dryRun)
         {
+            Console.WriteLine("Stressing the CPU.  Press enter to stop.");
+            if (dryRun) return;
+
             var tasks = SpinUp().ToArray();
 
-            Console.WriteLine("Stressing the CPU.  Press enter to stop.");
             Console.ReadLine();
 
-            Run = false;
+            _run = false;
 
             Task.WaitAll(tasks);
         }
 
-        private static void Main(string[] args)
+        private static void StressMem(bool dryRun)
         {
-            StressCpu();
-            //StressMem();
-        }
+            Console.WriteLine("Stressing out the memory");
+            if (dryRun) return;
 
-        private static void StressMem()
-        {
             LinkedList<byte> bytes = new LinkedList<byte>();
 
             while (true)
             {
+                Console.WriteLine("Press enter to allocate more memory");
                 Console.ReadLine();
                 for (int i = 0; i < 1024 * 1024; i++)
                 {
