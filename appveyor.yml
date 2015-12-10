@@ -48,7 +48,7 @@ artifacts:
 deploy:
 - provider: GitHub
   auth_token:
-    secure: AAAA
+    secure: zBj7kH3ngT1v5Bh9HfJFLO44yBrwJ55KhsWWv6zgkSrrBrIvkJq/0h/unEThGYIg
   artifact: 
   prerelease: false
   on:
@@ -57,7 +57,7 @@ deploy:
 - provider: NuGet
   server: https://chocolatey.org/
   api_key:
-    secure: BBBB
+    secure: 2Uqi8iUyKSHUakCSDeJb+qeXjn8i87F2U9RRmQIsqz4HOSycTjhat5AxHNs0yJ4g
   artifact: package
   on:
     branch: master
