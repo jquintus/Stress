@@ -44,6 +44,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Chocolatey\install.bat" />
+    <None Include="Chocolatey\pack.bat" />
+    <None Include="Chocolatey\package.nuspec" />
+    <None Include="Chocolatey\Tools\chocolateyInstall.ps1" />
+    <None Include="Chocolatey\Tools\chocolateyUninstall.ps1" />
+    <None Include="Chocolatey\uninstall.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

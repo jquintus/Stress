@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if �O� doesn�t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Stress.portable</id>
+    <title>Stress (Portable)</title>
+    <version>0.0.1</version>
+    <authors>Josh Quintus</authors>
+    <owners>Josh Quintus</owners>
+    <summary>JSON pretty printer</summary>
+    <description>JSON pretty printer</description>
+    <tags>json prettyprint</tags>
+    <copyright></copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes></releaseNotes>
+    <licenseUrl> https://github.com/jquintus/Stress/blob/master/LICENSE </licenseUrl>
+    <projectUrl> https://github.com/jquintus/Stress </projectUrl>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
