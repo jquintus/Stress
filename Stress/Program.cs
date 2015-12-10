@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,29 +12,30 @@ namespace Stress
 
         public static void Main(string[] args)
         {
-            object invokedVerbInstance;
-
             var options = new StressOptions();
-            if (!CommandLine.Parser.Default.ParseArguments(args, options,
-              (verb, subOptions) =>
-              {
-                  invokedVerbInstance = subOptions;
-
-                  switch (verb.ToLower())
-                  {
-                      case "cpu":
-
-                          StressCpu(options.Cpu.DryRun);
-                          break;
-
-                      case "ram":
-                          StressMem(options.Ram.DryRun);
-                          break;
-                  }
-              }))
+            if (args == null || !args.Any())
             {
-                
+                args = new string[] {"--help"};
             }
+
+            Parser.Default.ParseArguments(args, options,
+                (verb, subOptions) =>
+                {
+                    switch (verb?.ToLower())
+                    {
+                        case "cpu":
+                            StressCpu(options.Cpu.DryRun);
+                            break;
+
+                        case "ram":
+                            StressMem(options.Ram.DryRun);
+                            break;
+
+                        default:
+                            Console.WriteLine(options.GetUsage());
+                            break;
+                    }
+                });
         }
 
         private static IEnumerable<Task> SpinUp()
