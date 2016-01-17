@@ -41,9 +41,11 @@ after_build:
 - cpack Stress\Chocolatey\package.nuspec --version %BuildVersion%
 
 artifacts:
-- path: Stress\bin\$(configuration)\Stress.exe
+- path: Stress\bin\$(configuration)
+  name: bin
 - path: '*.nupkg'
   name: package
+
 deploy:
 - provider: GitHub
   auth_token:
