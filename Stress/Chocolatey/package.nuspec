@@ -12,9 +12,13 @@
     <tags>json prettyprint</tags>
     <copyright></copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>https://github.com/jquintus/Stress/releases</releaseNotes>
     <licenseUrl> https://github.com/jquintus/Stress/blob/master/LICENSE </licenseUrl>
     <projectUrl> https://github.com/jquintus/Stress </projectUrl>
+    <packageSourceUrl> https://github.com/jquintus/Stress </packageSourceUrl>
+    <docsUrl>https://github.com/jquintus/Stress</docsUrl>
+    <bugTrackerUrl>https://github.com/jquintus/Stress/issues</bugTrackerUrl>
+    <projectSourceUrl> https://github.com/jquintus/Stress </projectSourceUrl>
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
