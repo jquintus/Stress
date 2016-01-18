@@ -7,9 +7,9 @@
     <version>0.0.1</version>
     <authors>Josh Quintus</authors>
     <owners>Josh Quintus</owners>
-    <summary>JSON pretty printer</summary>
-    <description>JSON pretty printer</description>
-    <tags>json prettyprint</tags>
+    <summary>Stress out your system by using up lots of resourcs</summary>
+    <description>Stress out your system by using up lots of resourcs</description>
+    <tags>stress</tags>
     <copyright></copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>https://github.com/jquintus/Stress/releases</releaseNotes>
