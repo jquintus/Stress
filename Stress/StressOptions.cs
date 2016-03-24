@@ -3,10 +3,26 @@ using CommandLine.Text;
 
 namespace Stress
 {
+    public enum OptionTypes
+    {
+        cpu = 0,
+        ram,
+        disk,
+    }
+
     public class CpuOptions
     {
         [Option("dry-run", HelpText = "Do not stress out the cpu, just report what we would have done")]
         public bool DryRun { get; set; }
+    }
+
+    public class DiskOptions
+    {
+        [Option("dry-run", HelpText = "Do not stress out the disk, just report what we would have done")]
+        public bool DryRun { get; set; }
+
+        [Option("size", DefaultValue = 1024, HelpText = "The size of the file to create")]
+        public int FileSizeMb { get; set; }
     }
 
     public class RamOptions
@@ -17,18 +33,21 @@ namespace Stress
 
     public class StressOptions
     {
-
         public StressOptions()
         {
             Cpu = new CpuOptions();
             Ram = new RamOptions();
+            Disk = new DiskOptions();
         }
-        [VerbOption("cpu", HelpText = "Stress out the CPUs")]
+
+        [VerbOption(nameof(OptionTypes.cpu), HelpText = "Stress out the CPUs")]
         public CpuOptions Cpu { get; set; }
 
-        [VerbOption("ram", HelpText = "Stress out the memory")]
-        public RamOptions Ram { get; set; }
+        [VerbOption(nameof(OptionTypes.disk), HelpText = "Stress out the memory")]
+        public DiskOptions Disk { get; set; }
 
+        [VerbOption(nameof(OptionTypes.ram), HelpText = "Stress out the memory")]
+        public RamOptions Ram { get; set; }
 
         [HelpOption]
         public string GetUsage()

@@ -1,6 +1,8 @@
 ﻿using CommandLine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +17,7 @@ namespace Stress
             var options = new StressOptions();
             if (args == null || !args.Any())
             {
-                args = new string[] {"--help"};
+                args = new string[] { "--help" };
             }
 
             Parser.Default.ParseArguments(args, options,
@@ -23,12 +25,16 @@ namespace Stress
                 {
                     switch (verb?.ToLower())
                     {
-                        case "cpu":
+                        case nameof(OptionTypes.cpu):
                             StressCpu(options.Cpu.DryRun);
                             break;
 
-                        case "ram":
+                        case nameof(OptionTypes.ram):
                             StressMem(options.Ram.DryRun);
+                            break;
+
+                        case nameof(OptionTypes.disk):
+                            StressDisk(options.Disk);
                             break;
 
                         default:
@@ -61,6 +67,27 @@ namespace Stress
             _run = false;
 
             Task.WaitAll(tasks);
+        }
+
+        private static void StressDisk(DiskOptions disk)
+        {
+            Console.WriteLine($"Stressing out disk by writing {disk.FileSizeMb}MB file");
+            if (disk.DryRun) return;
+
+            var filePath = Path.GetTempFileName();
+
+            var pagesPerMB = 2;
+            var data = new byte[1000000 / pagesPerMB]; 
+
+            var watch = Stopwatch.StartNew();
+            for (int i = 0; i < disk.FileSizeMb * pagesPerMB; i++)
+            {
+                File.WriteAllBytes(filePath, data);
+            }
+            watch.Stop();
+
+            Console.WriteLine($"Took {watch.Elapsed.TotalSeconds} seconds to write {disk.FileSizeMb}MB to disk");
+            File.Delete(filePath);
         }
 
         private static void StressMem(bool dryRun)
