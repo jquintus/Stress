@@ -14,34 +14,41 @@ namespace Stress
 
         public static void Main(string[] args)
         {
-            var options = new StressOptions();
-            if (args == null || !args.Any())
+            try
             {
-                args = new string[] { "--help" };
-            }
-
-            Parser.Default.ParseArguments(args, options,
-                (verb, subOptions) =>
+                var options = new StressOptions();
+                if (args == null || !args.Any())
                 {
-                    switch (verb?.ToLower())
+                    args = new string[] { "--help" };
+                }
+
+                Parser.Default.ParseArguments(args, options,
+                    (verb, subOptions) =>
                     {
-                        case nameof(OptionTypes.cpu):
-                            StressCpu(options.Cpu.DryRun);
-                            break;
+                        switch (verb?.ToLower())
+                        {
+                            case nameof(OptionTypes.cpu):
+                                StressCpu(options.Cpu.DryRun);
+                                break;
 
-                        case nameof(OptionTypes.ram):
-                            StressMem(options.Ram.DryRun);
-                            break;
+                            case nameof(OptionTypes.ram):
+                                StressMem(options.Ram.DryRun);
+                                break;
 
-                        case nameof(OptionTypes.disk):
-                            StressDisk(options.Disk);
-                            break;
+                            case nameof(OptionTypes.disk):
+                                StressDisk(options.Disk);
+                                break;
 
-                        default:
-                            Console.WriteLine(options.GetUsage());
-                            break;
-                    }
-                });
+                            default:
+                                Console.WriteLine(options.GetUsage());
+                                break;
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         private static IEnumerable<Task> SpinUp()
@@ -71,13 +78,21 @@ namespace Stress
 
         private static void StressDisk(DiskOptions disk)
         {
-            Console.WriteLine($"Stressing out disk by writing {disk.FileSizeMb}MB file");
+            var filePath = disk.Path;
+
+            if (filePath == null)
+            {
+                var file = new FileInfo(Path.GetTempFileName()).Name;
+                var dir = Directory.GetCurrentDirectory();
+
+                filePath = Path.Combine(dir, file);
+            }
+
+            Console.WriteLine($"Stressing out disk by writing {disk.FileSizeMb}MB file to {filePath}");
             if (disk.DryRun) return;
 
-            var filePath = Path.GetTempFileName();
-
             var pagesPerMB = 2;
-            var data = new byte[1000000 / pagesPerMB]; 
+            var data = new byte[1000000 / pagesPerMB];
 
             var watch = Stopwatch.StartNew();
             for (int i = 0; i < disk.FileSizeMb * pagesPerMB; i++)

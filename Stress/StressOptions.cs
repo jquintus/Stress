@@ -23,6 +23,9 @@ namespace Stress
 
         [Option("size", DefaultValue = 1024, HelpText = "The size of the file to create")]
         public int FileSizeMb { get; set; }
+
+        [Option("path", HelpText = "The path to use when testing disk, defaults to the current directory")]
+        public string Path { get; set; }
     }
 
     public class RamOptions
